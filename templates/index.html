@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VideoFix</title>
+
+<style>
+.platform-input-box > .process-progress{display:none !important}.instagram-input-box > .process-progress{display:none !important}
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:#08090d;
+color:#f5f5f7;
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Arabic","Segoe UI",Arial,sans-serif;
+-webkit-font-smoothing:antialiased;
+text-rendering:optimizeLegibility;
+}
+
+.app{
+max-width:720px;
+margin:auto;
+padding:28px 18px 50px;
+}
+
+.topbar{
+position:relative;
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:10px;
+}
+
+.language{
+border:1px solid #292d38;
+background:#14161d;
+color:#e9ebef;
+border-radius:14px;
+padding:8px 12px;
+font-size:13px;
+font-weight:600;
+}
+
+.language-menu{
+display:none;
+position:absolute;
+top:48px;
+left:0;
+background:#15171e;
+border:1px solid #292d38;
+border-radius:16px;
+padding:6px;
+z-index:10;
+}
+
+.language-menu button{
+display:block !important;
+width:100% !important;
+box-sizing:border-box;
+border:0;
+background:transparent;
+color:#f5f5f7;
+padding:10px 14px;
+text-align:right;
+border-radius:10px;
+cursor:pointer;
+}
+
+.hero{
+margin-top:28px;
+}
+
+.hero h1{
+font-size:42px;
+line-height:1.05;
+margin:0 0 12px;
+letter-spacing:-1.5px;
+}
+
+.hero p{
+color:#8f96a3;
+font-size:16px;
+line-height:1.6;
+}
+.panel{
+margin-top:25px;
+background:#15171e;
+border:1px solid #272a34;
+border-radius:28px;
+padding:22px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.tools{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+margin-top:15px;
+}
+
+.tool{
+background:#12141a;
+border:1px solid #252934;
+border-radius:22px;
+padding:18px;
+min-height:125px;
+cursor:pointer;
+font:inherit;
+color:inherit;
+text-align:start;
+width:100%;
+}
+
+.tool-icon{
+font-size:27px;
+}
+
+.tool b{
+display:block;
+margin-top:12px;
+font-size:16px;
+}
+
+.tool span{
+display:block;
+color:#777f8d;
+font-size:12px;
+margin-top:6px;
+line-height:1.5;
+}
+.card-title{
+font-size:15px;
+font-weight:700;
+}
+
+.card-text{
+color:#777f8d;
+font-size:12px;
+margin-top:6px;
+line-height:1.5;
+}
+
+.footer{
+text-align:center;
+color:#555c69;
+font-size:12px;
+margin-top:30px;
+}
+
+@media(max-width:500px){
+.hero h1{
+font-size:38px;
+}
+
+.tools{
+grid-template-columns:1fr;
+}
+
+.tool{
+min-height:115px;
+padding:16px;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+.process-progress{
+display:block;
+margin-top:16px;
+}
+
+.process-progress-bar{
+width:0%;
+height:4px;
+border-radius:999px;
+background:#fff;
+transition:width .25s ease;
+}
+
+.process-progress-text{
+display:block;
+margin-top:8px;
+font-size:13px;
+color:#8e8e93;
+}
+
+.download-links-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;align-items:center;justify-content:center;}
+.download-links-box{background:#15171e;border:1px solid #292d38;border-radius:24px;padding:28px;width:min(92%,520px);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.45);}
+.download-links-box h2{margin:8px 0;font-size:24px;}
+.download-links-box p{margin:8px 0 20px;color:#a9acb7;}
+.download-links-close{position:absolute;margin-left:210px;margin-top:-12px;border:0;background:#292d38;color:#fff;width:34px;height:34px;border-radius:50%;font-size:22px;cursor:pointer;}
+
+.platforms{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px;}
+.platform{padding:18px 12px;border:1px solid #292d38;border-radius:18px;background:#1b1e27;color:#f5f5f7;font-weight:600;cursor:pointer;transition:transform .18s ease,background .18s ease,box-shadow .18s ease;}
+.platform:active{transform:scale(.94);background:#252936;box-shadow:0 4px 18px rgba(0,0,0,.25);}
+
+.platforms{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:24px;}
+.platform{position:relative;overflow:hidden;padding:22px 14px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 30px rgba(0,0,0,.28);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#f5f5f7;font-weight:600;cursor:pointer;transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s ease,border-color .2s ease;}
+.platform:before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 50% 0,rgba(255,255,255,.12),transparent 45%);pointer-events:none;}
+.platform:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 18px 38px rgba(0,0,0,.38);}
+.platform:active{transform:scale(.96) translateY(1px);box-shadow:inset 0 2px 8px rgba(0,0,0,.3);}
+
+.platform-icon{display:block;font-size:30px;font-weight:700;line-height:1;margin-bottom:10px;opacity:.98;filter:drop-shadow(0 4px 10px rgba(255,255,255,.16));text-shadow:0 4px 14px rgba(255,255,255,.12);}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app" id="top">
+
+<div class="topbar">
+<a class="brand" href="#top" aria-label="VideoFix home">
+  <span class="brand-mark"><img src="https://vyro-official.pages.dev/assets/vyro-seal-mascot.png" alt="VYRO mascot"></span>
+  <span class="brand-wordmark">VideoFix</span>
+</a>
+<button class="language" type="button">العربية⌄</button>
+<div class="language-menu">
+<button type="button" data-lang="ar">العربية</button>
+<button type="button" data-lang="en">English</button>
+<button type="button" data-lang="fr">Français</button>
+<button type="button" data-lang="es">Español</button>
+<button type="button" data-lang="de">Deutsch</button>
+<button type="button" data-lang="tr">Türkçe</button>
+<button type="button" data-lang="ja">日本語</button>
+<button type="button" data-lang="ko">한국어</button>
+<button type="button" data-lang="zh">中文</button>
+</div>
+</div>
+<section class="hero">
+<h1>تنزيل الفيديوهات<br>بسهولة.</h1>
+<p>حمّل الفيديوهات من TikTok وInstagram وFacebook وYouTube عبر الرابط مباشرة.</p>
+</section>
+
+<div class="vyro-signature-card">
+  <span class="vyro-signature-glow" aria-hidden="true"></span>
+  <span class="vyro-signature-copy">
+    <span class="vyro-signature-badge"><span class="vyro-live-dot" aria-hidden="true"></span><span data-vyro-i18n="vyroBadge">من عالم VYRO</span></span>
+    <strong class="vyro-signature-wordmark">VYRO<span class="vyro-signature-sparkle" aria-hidden="true">✦</span></strong>
+    <span class="vyro-signature-tagline" data-vyro-i18n="vyroTagline">وسائطك، ببساطة.</span>
+    <span class="vyro-signature-preview" aria-hidden="true">
+      <span class="vyro-preview-link"><span>⌕</span><span data-vyro-i18n="vyroPaste">الصق الرابط…</span></span>
+      <span class="vyro-preview-video"><span>▶</span><span data-vyro-i18n="vyroVideo">فيديو</span></span>
+    </span>
+    <span class="vyro-signature-visit" data-vyro-i18n="visitVyro">زيارة الموقع الرسمي <span aria-hidden="true">↗</span></span>
+  </span>
+  <span class="vyro-signature-mascot-wrap" aria-hidden="true">
+    <span class="vyro-mascot-orbit"></span>
+    <img class="vyro-signature-mascot" src="https://vyro-official.pages.dev/assets/vyro-seal-mascot.png" alt="" loading="eager" fetchpriority="high">
+    <span class="vyro-mascot-star vyro-mascot-star-one">✦</span>
+    <span class="vyro-mascot-star vyro-mascot-star-two">✧</span>
+  </span>
+  <span class="vyro-signature-arrow" aria-hidden="true">↗</span>
+</div>
+
+<div class="download-links-modal">
+    <div class="download-links-box">
+        <button type="button" class="download-links-close">×</button>
+        <h2>اختر منصة التنزيل</h2>
+        <p>حدد المنصة التي يوجد عليها الفيديو.</p>
+<div class="platforms">
+<div class="platform" data-platform="tiktok"><span class="platform-icon">♪</span>TikTok</div>
+<div class="platform" data-platform="instagram"><span class="platform-icon">◎</span>Instagram</div>
+<div class="platform" data-platform="facebook"><span class="platform-icon">f</span>Facebook</div>
+<div class="platform" data-platform="youtube"><span class="platform-icon">▶</span>YouTube</div>
+</div>
+    </div>
+</div>
+
+<section class="panel">
+
+<div class="card-title">تنزيل الفيديوهات</div>
+
+<div class="tools">
+
+<button type="button" class="tool download-tool">
+<div class="tool-icon">↓</div>
+<b>اختر المنصة</b>
+<span>اختر المنصة ثم ألصق رابط الفيديو لبدء التنزيل.</span>
+</button>
+
+</div>
+
+</section>
+
+<section class="connect-section" aria-labelledby="connect-heading">
+  <a class="official-site-card" href="https://vyro-official.pages.dev/" target="_blank" rel="noopener noreferrer" aria-label="VYRO official website">
+    <span class="official-site-mark"><img src="https://vyro-official.pages.dev/assets/vyro-seal-mascot.png" alt="VYRO"></span>
+    <span class="official-site-copy">
+      <span class="connect-eyebrow" data-i18n="officialEyebrow">الموقع الرسمي</span>
+      <strong data-i18n="officialTitle">اكتشف VYRO</strong>
+      <span data-i18n="officialDescription">الموقع الرسمي لمشروع VYRO وتحديثاته ومعلوماته.</span>
+    </span>
+    <span class="official-site-action" data-i18n="visitWebsite">زيارة الموقع <span aria-hidden="true">↗</span></span>
+  </a>
+
+  <div class="social-heading" id="connect-heading" data-i18n="socialTitle">تابعني على منصات التواصل</div>
+  <div class="social-cards">
+    <a class="social-card instagram-card" href="https://www.instagram.com/rc66i?mdxt=MW84NWMzMmE0dDk4MQ==" target="_blank" rel="noopener noreferrer" aria-label="Instagram account rc66i">
+      <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.2"/><circle cx="12" cy="12" r="4.1"/><circle class="social-icon-dot" cx="17.7" cy="6.6" r="1.1"/></svg></span>
+      <span class="social-copy"><strong>Instagram</strong><span>@rc66i</span><small data-i18n="instagramDescription">تابع الحساب على إنستغرام</small></span>
+      <span class="social-arrow" aria-hidden="true">↗</span>
+    </a>
+    <a class="social-card tiktok-card" href="https://www.tiktok.com/@s444i?_r=1&amp;_t=ZS-9BSU1uC6ndF" target="_blank" rel="noopener noreferrer" aria-label="TikTok account s444i">
+      <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14.2 3v11.1a4.1 4.1 0 1 1-3.5-4.05V13a1.2 1.2 0 1 0 .7 1.1V3h2.8c.2 2.2 1.4 3.6 3.8 4v2.8a8 8 0 0 1-3.8-1.5"/></svg></span>
+      <span class="social-copy"><strong>TikTok</strong><span>@s444i</span><small data-i18n="tiktokDescription">تابع الحساب على تيك توك</small></span>
+      <span class="social-arrow" aria-hidden="true">↗</span>
+    </a>
+  </div>
+</section>
+
+<div class="footer">
+  <span class="footer-tagline">VideoFix · أدواتك، بطريقتك.</span>
+  <span class="footer-credit">By Mustafa Hassan</span>
+</div>
+
+</div>
+
+<script>
+const languageButton = document.querySelector(".language");
+const languageMenu = document.querySelector(".language-menu");
+
+languageButton.addEventListener("click", () => {
+    languageMenu.style.display =
+        languageMenu.style.display === "block" ? "none" : "block";
+});
+
+
+const translations = {
+    ar: {
+        heroTitle: "تنزيل الفيديوهات<br>بسهولة.",
+        heroText: "حمّل الفيديوهات من TikTok وInstagram وFacebook وYouTube عبر الرابط مباشرة.",
+        sectionTitle: "تنزيل الفيديوهات",
+        choosePlatform: "اختر المنصة",
+        choosePlatformText: "اختر المنصة ثم ألصق رابط الفيديو لبدء التنزيل.",
+        modalTitle: "اختر منصة التنزيل",
+        modalText: "حدد المنصة التي يوجد عليها الفيديو.",
+        pasteLink: "ألصق رابط الفيديو للمتابعة",
+        pastePlaceholder: "ألصق الرابط هنا",
+        download: "تنزيل",
+        vyroBadge: 'من عالم VYRO',
+        vyroTagline: 'وسائطك، ببساطة.',
+        vyroPaste: 'الصق الرابط…',
+        vyroVideo: 'فيديو',
+        visitVyro: 'زيارة الموقع الرسمي',
+        officialEyebrow: 'الموقع الرسمي',
+        officialTitle: 'اكتشف VYRO',
+        officialDescription: 'الموقع الرسمي لمشروع VYRO وتحديثاته ومعلوماته.',
+        visitWebsite: 'زيارة الموقع',
+        socialTitle: 'تابعني على منصات التواصل',
+        instagramDescription: 'تابع الحساب على إنستغرام',
+        tiktokDescription: 'تابع الحساب على تيك توك',
+        footer: "VideoFix · تنزيل الفيديوهات من المنصات المدعومة."
+    },
+    en: {
+        heroTitle: "Download videos<br>with ease.",
+        heroText: "Download videos from TikTok, Instagram, Facebook and YouTube using a link.",
+        sectionTitle: "Video downloads",
+        choosePlatform: "Choose a platform",
+        choosePlatformText: "Select a platform, then paste the video link to start downloading.",
+        modalTitle: "Choose a platform",
+        modalText: "Select the platform where the video is hosted.",
+        pasteLink: "Paste the video link to continue",
+        pastePlaceholder: "Paste the link here",
+        download: "Download",
+        vyroBadge: 'FROM VYRO',
+        vyroTagline: 'Your media, simply.',
+        vyroPaste: 'Paste a link…',
+        vyroVideo: 'Video',
+        visitVyro: 'Visit official website',
+        officialEyebrow: 'OFFICIAL WEBSITE',
+        officialTitle: 'Explore VYRO',
+        officialDescription: 'The official home for the VYRO project, updates and information.',
+        visitWebsite: 'Visit website',
+        socialTitle: 'Connect with me',
+        instagramDescription: 'Follow on Instagram',
+        tiktokDescription: 'Follow on TikTok',
+        footer: "VideoFix · Video downloads from supported platforms."
+    },
+    fr: {
+        heroTitle: "Téléchargez des vidéos<br>en toute simplicité.",
+        heroText: "Téléchargez des vidéos depuis TikTok, Instagram, Facebook et YouTube avec un lien.",
+        sectionTitle: "Téléchargement de vidéos",
+        choosePlatform: "Choisir une plateforme",
+        choosePlatformText: "Choisissez une plateforme, puis collez le lien de la vidéo.",
+        modalTitle: "Choisir une plateforme",
+        modalText: "Sélectionnez la plateforme où se trouve la vidéo.",
+        pasteLink: "Collez le lien de la vidéo pour continuer",
+        pastePlaceholder: "Collez le lien ici",
+        download: "Télécharger",
+        vyroBadge: 'DE VYRO',
+        vyroTagline: 'Vos médias, tout simplement.',
+        vyroPaste: 'Collez un lien…',
+        vyroVideo: 'Vidéo',
+        visitVyro: 'Visiter le site officiel',
+        officialEyebrow: 'SITE OFFICIEL',
+        officialTitle: 'Découvrir VYRO',
+        officialDescription: 'Le site officiel du projet VYRO, de ses actualités et informations.',
+        visitWebsite: 'Visiter le site',
+        socialTitle: 'Me retrouver sur les réseaux',
+        instagramDescription: 'Suivre sur Instagram',
+        tiktokDescription: 'Suivre sur TikTok',
+        footer: "VideoFix · Téléchargement de vidéos depuis les plateformes prises en charge."
+    },
+    es: {
+        heroTitle: "Descarga videos<br>fácilmente.",
+        heroText: "Descarga videos de TikTok, Instagram, Facebook y YouTube mediante un enlace.",
+        sectionTitle: "Descarga de videos",
+        choosePlatform: "Elige una plataforma",
+        choosePlatformText: "Selecciona una plataforma y pega el enlace del video.",
+        modalTitle: "Elige una plataforma",
+        modalText: "Selecciona la plataforma donde está el video.",
+        pasteLink: "Pega el enlace del video para continuar",
+        pastePlaceholder: "Pega el enlace aquí",
+        download: "Descargar",
+        vyroBadge: 'DE VYRO',
+        vyroTagline: 'Tus medios, sin complicaciones.',
+        vyroPaste: 'Pega un enlace…',
+        vyroVideo: 'Vídeo',
+        visitVyro: 'Visitar sitio oficial',
+        officialEyebrow: 'SITIO OFICIAL',
+        officialTitle: 'Descubre VYRO',
+        officialDescription: 'El sitio oficial del proyecto VYRO, sus novedades e información.',
+        visitWebsite: 'Visitar sitio',
+        socialTitle: 'Sígueme en redes sociales',
+        instagramDescription: 'Seguir en Instagram',
+        tiktokDescription: 'Seguir en TikTok',
+        footer: "VideoFix · Descarga de videos desde plataformas compatibles."
+    },
+    de: {
+        heroTitle: "Videos einfach<br>herunterladen.",
+        heroText: "Lade Videos von TikTok, Instagram, Facebook und YouTube über einen Link herunter.",
+        sectionTitle: "Video-Downloads",
+        choosePlatform: "Plattform auswählen",
+        choosePlatformText: "Wähle eine Plattform und füge den Videolink ein.",
+        modalTitle: "Plattform auswählen",
+        modalText: "Wähle die Plattform, auf der sich das Video befindet.",
+        pasteLink: "Füge den Videolink ein, um fortzufahren",
+        pastePlaceholder: "Link hier einfügen",
+        download: "Herunterladen",
+        vyroBadge: 'VON VYRO',
+        vyroTagline: 'Deine Medien. Ganz einfach.',
+        vyroPaste: 'Link einfügen…',
+        vyroVideo: 'Video',
+        visitVyro: 'Offizielle Website besuchen',
+        officialEyebrow: 'OFFIZIELLE WEBSITE',
+        officialTitle: 'VYRO entdecken',
+        officialDescription: 'Die offizielle Website des VYRO-Projekts mit Neuigkeiten und Informationen.',
+        visitWebsite: 'Website besuchen',
+        socialTitle: 'Folge mir auf Social Media',
+        instagramDescription: 'Auf Instagram folgen',
+        tiktokDescription: 'Auf TikTok folgen',
+        footer: "VideoFix · Video-Downloads von unterstützten Plattformen."
+    },
+    tr: {
+        heroTitle: "Videoları kolayca<br>indir.",
+        heroText: "TikTok, Instagram, Facebook ve YouTube videolarını bağlantıyla indir.",
+        sectionTitle: "Video indirme",
+        choosePlatform: "Platform seç",
+        choosePlatformText: "Bir platform seç ve indirmek için video bağlantısını yapıştır.",
+        modalTitle: "Platform seç",
+        modalText: "Videonun bulunduğu platformu seç.",
+        pasteLink: "Devam etmek için video bağlantısını yapıştır",
+        pastePlaceholder: "Bağlantıyı buraya yapıştır",
+        download: "İndir",
+        vyroBadge: 'VYRO’DAN',
+        vyroTagline: 'Medyan, çok daha kolay.',
+        vyroPaste: 'Bağlantıyı yapıştır…',
+        vyroVideo: 'Video',
+        visitVyro: 'Resmî siteyi ziyaret et',
+        officialEyebrow: 'RESMÎ WEB SİTESİ',
+        officialTitle: 'VYRO’yu keşfet',
+        officialDescription: 'VYRO projesinin resmî sitesi, güncellemeler ve bilgiler.',
+        visitWebsite: 'Siteyi ziyaret et',
+        socialTitle: 'Sosyal medyada takip et',
+        instagramDescription: 'Instagram’da takip et',
+        tiktokDescription: 'TikTok’ta takip et',
+        footer: "VideoFix · Desteklenen platformlardan video indirme."
+    },
+    ja: {
+        heroTitle: "動画をかんたんに<br>ダウンロード。",
+        heroText: "TikTok、Instagram、Facebook、YouTubeからリンクで動画をダウンロードできます。",
+        sectionTitle: "動画のダウンロード",
+        choosePlatform: "プラットフォームを選択",
+        choosePlatformText: "プラットフォームを選び、動画リンクを貼り付けてください。",
+        modalTitle: "プラットフォームを選択",
+        modalText: "動画があるプラットフォームを選択してください。",
+        pasteLink: "続行するには動画リンクを貼り付けてください",
+        pastePlaceholder: "ここにリンクを貼り付け",
+        download: "ダウンロード",
+        vyroBadge: 'VYROから',
+        vyroTagline: 'メディアを、シンプルに。',
+        vyroPaste: 'リンクを貼り付け…',
+        vyroVideo: '動画',
+        visitVyro: '公式サイトを見る',
+        officialEyebrow: '公式ウェブサイト',
+        officialTitle: 'VYROを見る',
+        officialDescription: 'VYROプロジェクトの公式サイト、最新情報と詳細。',
+        visitWebsite: 'サイトを見る',
+        socialTitle: 'SNSでフォロー',
+        instagramDescription: 'Instagramをフォロー',
+        tiktokDescription: 'TikTokをフォロー',
+        footer: "VideoFix · 対応プラットフォームから動画をダウンロード。"
+    },
+    ko: {
+        heroTitle: "동영상을 간편하게<br>다운로드하세요.",
+        heroText: "TikTok, Instagram, Facebook 및 YouTube에서 링크로 동영상을 다운로드하세요.",
+        sectionTitle: "동영상 다운로드",
+        choosePlatform: "플랫폼 선택",
+        choosePlatformText: "플랫폼을 선택한 다음 동영상 링크를 붙여넣으세요.",
+        modalTitle: "플랫폼 선택",
+        modalText: "동영상이 있는 플랫폼을 선택하세요.",
+        pasteLink: "계속하려면 동영상 링크를 붙여넣으세요",
+        pastePlaceholder: "여기에 링크 붙여넣기",
+        download: "다운로드",
+        vyroBadge: 'VYRO에서',
+        vyroTagline: '미디어를 간편하게.',
+        vyroPaste: '링크 붙여넣기…',
+        vyroVideo: '동영상',
+        visitVyro: '공식 웹사이트 방문',
+        officialEyebrow: '공식 웹사이트',
+        officialTitle: 'VYRO 알아보기',
+        officialDescription: 'VYRO 프로젝트의 공식 사이트와 업데이트 및 정보입니다.',
+        visitWebsite: '웹사이트 방문',
+        socialTitle: '소셜 미디어에서 팔로우',
+        instagramDescription: 'Instagram 팔로우',
+        tiktokDescription: 'TikTok 팔로우',
+        footer: "VideoFix · 지원되는 플랫폼에서 동영상 다운로드."
+    },
+    zh: {
+        heroTitle: "轻松下载<br>视频。",
+        heroText: "通过链接下载 TikTok、Instagram、Facebook 和 YouTube 视频。",
+        sectionTitle: "视频下载",
+        choosePlatform: "选择平台",
+        choosePlatformText: "选择平台，然后粘贴视频链接即可开始下载。",
+        modalTitle: "选择平台",
+        modalText: "请选择视频所在的平台。",
+        pasteLink: "粘贴视频链接以继续",
+        pastePlaceholder: "在此粘贴链接",
+        download: "下载",
+        vyroBadge: '来自 VYRO',
+        vyroTagline: '媒体，简单呈现。',
+        vyroPaste: '粘贴链接…',
+        vyroVideo: '视频',
+        visitVyro: '访问官方网站',
+        officialEyebrow: '官方网站',
+        officialTitle: '探索 VYRO',
+        officialDescription: 'VYRO 项目的官方网站，了解更新与相关信息。',
+        visitWebsite: '访问网站',
+        socialTitle: '在社交平台关注我',
+        instagramDescription: '关注 Instagram',
+        tiktokDescription: '关注 TikTok',
+        footer: "VideoFix · 从支持的平台下载视频。"
+    }
+};
+
+function applyLanguage(lang) {
+    const t = translations[lang];
+    if (!t) return;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.querySelector(".hero h1").innerHTML = t.heroTitle;
+    document.querySelector(".hero p").textContent = t.heroText;
+    document.querySelector(".card-title").textContent = t.sectionTitle;
+    document.querySelector(".download-tool b").textContent = t.choosePlatform;
+    document.querySelector(".download-tool span").textContent = t.choosePlatformText;
+    document.querySelector(".download-links-box h2").textContent = t.modalTitle;
+    document.querySelector(".download-links-box p").textContent = t.modalText;
+    const downloadVerb = {ar:"تنزيل", en:"Download", fr:"Télécharger", es:"Descargar", de:"Herunterladen", tr:"İndir", ja:"ダウンロード", ko:"다운로드", zh:"下载"}[lang];
+    document.querySelector(".platform-input-box h2").textContent = `${downloadVerb} TikTok`;
+    document.querySelector(".instagram-input-box h2").textContent = `${downloadVerb} Instagram`;
+    document.querySelector(".facebook-input-box h2").textContent = `${downloadVerb} Facebook`;
+    document.querySelector(".youtube-input-box h2").textContent = `${downloadVerb} YouTube`;
+    document.querySelectorAll(".platform-input-box p, .instagram-input-box p, .facebook-input-box p, .youtube-input-box p").forEach(el => el.textContent = t.pasteLink);
+    document.querySelectorAll(".platform-url-input, .instagram-url-input, .facebook-url-input, .youtube-url-input").forEach(el => el.placeholder = t.pastePlaceholder);
+    document.querySelectorAll(".platform-download-button .download-progress-text, .instagram-download-button .instagram-download-progress-text, .facebook-download-button .facebook-download-progress-text, .youtube-download-button .youtube-download-progress-text").forEach(el => {
+        if (!el.closest("button").classList.contains("downloading")) el.textContent = t.download;
+    });
+    document.querySelector(".official-site-card [data-i18n=\"officialEyebrow\"]").textContent = t.officialEyebrow;
+    document.querySelector(".official-site-card [data-i18n=\"officialTitle\"]").textContent = t.officialTitle;
+    document.querySelector(".official-site-card [data-i18n=\"officialDescription\"]").textContent = t.officialDescription;
+    document.querySelector(".official-site-action").childNodes[0].textContent = t.visitWebsite + " ";
+    document.querySelector(".social-heading").textContent = t.socialTitle;
+    document.querySelector(".instagram-card small").textContent = t.instagramDescription;
+    document.querySelector(".tiktok-card small").textContent = t.tiktokDescription;
+    document.querySelector(".footer-tagline").textContent = t.footer;
+    document.querySelector('[data-vyro-i18n="vyroBadge"]').textContent = t.vyroBadge;
+    document.querySelector('[data-vyro-i18n="vyroTagline"]').textContent = t.vyroTagline;
+    document.querySelector('[data-vyro-i18n="vyroPaste"]').textContent = t.vyroPaste;
+    document.querySelector('[data-vyro-i18n="vyroVideo"]').textContent = t.vyroVideo;
+    document.querySelector('[data-vyro-i18n="visitVyro"]').childNodes[0].textContent = t.visitVyro + " ";
+}
+const languageButtons = document.querySelectorAll(".language-menu button");
+
+languageButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        applyLanguage(button.dataset.lang);
+localStorage.setItem("videofix-language", button.dataset.lang);
+languageButton.textContent = button.textContent + "⌄";
+languageMenu.style.display = "none";
+    });
+
+});
+const savedLanguage = localStorage.getItem("videofix-language") || "ar";
+document.addEventListener("DOMContentLoaded", () => {
+    applyLanguage(savedLanguage);
+    const savedButton = document.querySelector(`.language-menu button[data-lang="${savedLanguage}"]`);
+    if (savedButton) languageButton.textContent = savedButton.textContent + "⌄";
+});
+
+document.querySelector(".download-tool").addEventListener("click", () => {
+    document.querySelector(".download-links-modal").style.display = "flex";
+});
+
+document.querySelector(".download-links-close").addEventListener("click", () => {
+    document.querySelector(".download-links-modal").style.display = "none";
+});
+
+document.querySelectorAll(".platform[data-platform]").forEach(platform => {
+    platform.addEventListener("click", () => {
+        if (platform.dataset.platform === "tiktok") {
+            document.querySelector(".platform-input-modal").style.display = "flex";
+        } else if (platform.dataset.platform === "instagram") {
+            document.querySelector(".instagram-input-modal").style.display = "flex";
+        } else if (platform.dataset.platform === "facebook") {
+            document.querySelector(".facebook-input-modal").style.display = "flex";
+        } else if (platform.dataset.platform === "youtube") {
+            document.querySelector(".youtube-input-modal").style.display = "flex";
+        }
+    });
+});
+
+window.addEventListener("error", (event) => {
+    console.error("VideoFix:", event.error || event.message);
+});
+
+</script>
+<div class="platform-input-modal"><div class="platform-input-box"><button type="button" class="platform-input-close">×</button><h2>تنزيل TikTok</h2><p>ألصق رابط الفيديو للمتابعة</p><input class="platform-url-input" type="url" placeholder="ألصق الرابط هنا"><button type="button" class="platform-download-button"><span class="download-progress-fill"></span><span class="download-progress-text">تنزيل</span></button><div class="process-progress" style="display:none !important"><div class="process-progress-bar platform-progress-bar"></div><span class="process-progress-text platform-progress-text">0%</span></div></div></div>
+
+<style>
+.facebook-input-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(18px);z-index:202;align-items:center;justify-content:center}
+.facebook-input-box{position:relative;width:min(90%,430px);padding:30px;border:1px solid rgba(255,255,255,.12);border-radius:28px;background:linear-gradient(145deg,rgba(35,38,48,.96),rgba(15,17,23,.96));box-shadow:0 30px 90px rgba(0,0,0,.55);text-align:center}
+.facebook-input-box h2{margin:8px 0;font-size:25px}
+.facebook-input-box p{margin:8px 0 22px;color:#a9acb7}
+.facebook-url-input{width:100%;box-sizing:border-box;padding:15px 16px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(255,255,255,.06);color:#fff;outline:none;font-size:15px}
+.facebook-download-button{width:100%;margin-top:14px;padding:15px;border:0;border-radius:16px;background:#fff;color:#08090d;font-weight:700;font-size:16px;cursor:pointer;transition:background .35s ease,color .35s ease,filter .35s ease;backdrop-filter:blur(14px);position:relative;overflow:hidden}
+</style><style>
+.youtube-input-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(18px);z-index:203;align-items:center;justify-content:center}
+.youtube-input-box{position:relative;width:min(90%,430px);padding:30px;border:1px solid rgba(255,255,255,.12);border-radius:28px;background:linear-gradient(145deg,rgba(35,38,48,.96),rgba(15,17,23,.96));box-shadow:0 30px 90px rgba(0,0,0,.55);text-align:center}
+.youtube-input-box h2{margin:8px 0;font-size:25px}
+.youtube-input-box p{margin:8px 0 22px;color:#a9acb7}
+.youtube-url-input{width:100%;box-sizing:border-box;padding:15px 16px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(255,255,255,.06);color:#fff;outline:none;font-size:15px}
+.youtube-download-button{width:100%;margin-top:14px;padding:15px;border:0;border-radius:16px;background:#fff;color:#08090d;font-weight:700;font-size:16px;cursor:pointer;transition:background .35s ease,color .35s ease,filter .35s ease;backdrop-filter:blur(14px);position:relative;overflow:hidden}
+.youtube-download-button.downloading{background:#15161b;color:#fff;filter:brightness(.85)}
+.youtube-download-progress-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:#fff;transition:width .3s ease;z-index:0}
+.youtube-download-progress-text{position:relative;z-index:10;display:flex;align-items:center;justify-content:center;width:100%}
+.youtube-download-button.downloading .youtube-download-progress-text{color:#fff;mix-blend-mode:difference}
+.youtube-download-button.downloading::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--youtube-progress,0%);background:#fff;opacity:.18;filter:blur(3px);transition:width .3s ease}
+</style>
+<div class="youtube-input-modal">
+<div class="youtube-input-box">
+<button type="button" class="youtube-input-close">×</button>
+<h2>تنزيل YouTube</h2>
+<p>ألصق رابط الفيديو للمتابعة</p>
+<input class="youtube-url-input" type="url" placeholder="ألصق الرابط هنا">
+<button type="button" class="youtube-download-button"><span class="youtube-download-progress-fill"></span><span class="youtube-download-progress-text">تنزيل</span></button>
+</div>
+</div><style>
+.facebook-download-button.downloading{background:#15161b;color:#fff;filter:brightness(.85)}
+.facebook-download-progress-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:#fff;transition:width .3s ease;z-index:0}
+.facebook-download-progress-text{position:relative;z-index:10;display:flex;align-items:center;justify-content:center;width:100%}
+.facebook-download-button.downloading .facebook-download-progress-text{color:#fff;mix-blend-mode:difference}
+.facebook-download-button.downloading::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--facebook-progress,0%);background:#fff;opacity:.18;filter:blur(3px);transition:width .3s ease}
+</style>
+<div class="facebook-input-modal"><div class="facebook-input-box"><button type="button" class="facebook-input-close">×</button><h2>تنزيل Facebook</h2><p>ألصق رابط الفيديو للمتابعة</p><input class="facebook-url-input" type="url" placeholder="ألصق الرابط هنا"><button type="button" class="facebook-download-button"><span class="facebook-download-progress-fill"></span><span class="facebook-download-progress-text">تنزيل</span></button></div></div>
+<style>.instagram-input-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(18px);z-index:201;align-items:center;justify-content:center}.instagram-input-box{position:relative;width:min(90%,430px);padding:30px;border:1px solid rgba(255,255,255,.12);border-radius:28px;background:linear-gradient(145deg,rgba(35,38,48,.96),rgba(15,17,23,.96));box-shadow:0 30px 90px rgba(0,0,0,.55);text-align:center}.instagram-input-box h2{margin:8px 0;font-size:25px}.instagram-input-box p{margin:8px 0 22px;color:#a9acb7}.instagram-url-input{width:100%;box-sizing:border-box;padding:15px 16px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(255,255,255,.06);color:#fff;outline:none;font-size:15px}.instagram-download-button{width:100%;margin-top:14px;padding:15px;border:0;border-radius:16px;background:#fff;color:#08090d;font-weight:700;font-size:16px;cursor:pointer;transition:background .35s ease,color .35s ease,filter .35s ease;backdrop-filter:blur(14px);position:relative;overflow:hidden}</style><style>
+.instagram-download-button.downloading{background:#15161b;color:#fff;filter:brightness(.85)}
+.instagram-download-progress-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:#fff;transition:width .3s ease;z-index:0}
+.instagram-download-progress-text{position:relative;z-index:10;display:flex;align-items:center;justify-content:center;width:100%}
+.instagram-download-button.downloading .instagram-download-progress-text{color:#fff;mix-blend-mode:difference}
+.instagram-download-button.downloading::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--instagram-progress,0%);background:#fff;opacity:.18;filter:blur(3px);transition:width .3s ease}
+</style>
+<div class="instagram-input-modal"><div class="instagram-input-box"><button type="button" class="instagram-input-close">×</button><h2>تنزيل Instagram</h2><p>ألصق رابط الفيديو للمتابعة</p><input class="instagram-url-input" type="url" placeholder="ألصق الرابط هنا"><button type="button" class="instagram-download-button"><span class="instagram-download-progress-fill"></span><span class="instagram-download-progress-text">تنزيل</span></button><div class="process-progress" style="display:none !important"><div class="process-progress-bar instagram-progress-bar"></div><span class="process-progress-text instagram-progress-text">0%</span></div></div></div><script>
+const instagramModal = document.querySelector(".instagram-input-modal");
+instagramModal.querySelector(".instagram-input-close").addEventListener("click", () => {
+    instagramModal.style.display = "none";
+});
+
+instagramModal.querySelector(".instagram-download-button").addEventListener("click", async () => {
+    const input = instagramModal.querySelector(".instagram-url-input");
+    const button = instagramModal.querySelector(".instagram-download-button");
+    const fill = instagramModal.querySelector(".instagram-download-progress-fill");
+    const text = instagramModal.querySelector(".instagram-download-progress-text");
+
+    if (!input.value.trim()) return;
+
+    const formData = new FormData();
+    formData.append("url", input.value.trim());
+
+    button.classList.add("downloading");
+    text.textContent = "0%";
+
+    try {
+        const response = await fetch("/download-url", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        const timer = setInterval(async () => {
+            const response = await fetch("/download-progress/" + data.job_id);
+            const progress = await response.json();
+
+            fill.style.width = progress.progress + "%";
+            button.style.setProperty("--instagram-progress", progress.progress + "%");
+            text.textContent = progress.progress + "%";
+
+            if (progress.status === "done") {
+                clearInterval(timer);
+
+                const a = document.createElement("a");
+                a.href = "/download-url/" + data.job_id;
+                a.download = "VideoFix-Instagram.mp4";
+                a.click();
+
+                setTimeout(() => {
+                    fill.style.width = "0%";
+                    text.textContent = translations[document.documentElement.lang]?.download || "Download";
+                    button.classList.remove("downloading");
+                }, 700);
+            }
+        }, 300);
+
+    } catch (error) {
+        button.classList.remove("downloading");
+        alert("حدث خطأ أثناء الاتصال");
+    }
+});
+
+
+const facebookModal = document.querySelector(".facebook-input-modal");
+facebookModal.querySelector(".facebook-input-close").addEventListener("click", () => {
+    facebookModal.style.display = "none";
+});
+
+facebookModal.querySelector(".facebook-download-button").addEventListener("click", async () => {
+    const input = facebookModal.querySelector(".facebook-url-input");
+    const button = facebookModal.querySelector(".facebook-download-button");
+    const fill = facebookModal.querySelector(".facebook-download-progress-fill");
+    const text = facebookModal.querySelector(".facebook-download-progress-text");
+
+    if (!input.value.trim()) return;
+
+    const formData = new FormData();
+    formData.append("url", input.value.trim());
+
+    button.classList.add("downloading");
+    text.textContent = "0%";
+
+    try {
+        const response = await fetch("/download-url", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+        const checkProgress = async () => {
+            const response = await fetch("/download-progress/" + data.job_id);
+            const progress = await response.json();
+
+            fill.style.width = progress.progress + "%";
+            button.style.setProperty("--facebook-progress", progress.progress + "%");
+            text.textContent = progress.progress + "%";
+
+            if (progress.status === "done") {
+                const a = document.createElement("a");
+                a.href = "/download-url/" + data.job_id;
+                a.download = "VideoFix-Facebook.mp4";
+                a.click();
+
+                setTimeout(() => {
+                    fill.style.width = "0%";
+                    text.textContent = translations[document.documentElement.lang]?.download || "Download";
+                    button.classList.remove("downloading");
+                }, 700);
+
+                return;
+            }
+
+            if (progress.status === "processing") {
+                setTimeout(checkProgress, 300);
+            }
+        };
+
+        checkProgress();
+    } catch (error) {
+        alert("حدث خطأ أثناء الاتصال");
+        button.classList.remove("downloading");
+    }
+});
+
+const youtubeModal = document.querySelector(".youtube-input-modal");
+youtubeModal.querySelector(".youtube-input-close").addEventListener("click", () => {
+    youtubeModal.style.display = "none";
+});
+
+youtubeModal.querySelector(".youtube-download-button").addEventListener("click", async () => {
+    const input = youtubeModal.querySelector(".youtube-url-input");
+    const button = youtubeModal.querySelector(".youtube-download-button");
+    const fill = youtubeModal.querySelector(".youtube-download-progress-fill");
+    const text = youtubeModal.querySelector(".youtube-download-progress-text");
+
+    if (!input.value.trim()) return;
+
+    const formData = new FormData();
+    formData.append("url", input.value.trim());
+
+    button.classList.add("downloading");
+    text.textContent = "0%";
+
+    try {
+        const response = await fetch("/download-url", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        const checkProgress = async () => {
+            const response = await fetch("/download-progress/" + data.job_id);
+            const progress = await response.json();
+
+            fill.style.width = progress.progress + "%";
+            button.style.setProperty("--youtube-progress", progress.progress + "%");
+            text.textContent = progress.progress + "%";
+
+            if (progress.status === "done") {
+                const a = document.createElement("a");
+                a.href = "/download-url/" + data.job_id;
+                a.download = "VideoFix-YouTube.mp4";
+                a.click();
+
+                setTimeout(() => {
+                    fill.style.width = "0%";
+                    text.textContent = translations[document.documentElement.lang]?.download || "Download";
+                    button.classList.remove("downloading");
+                }, 700);
+
+                return;
+            }
+            if (progress.status === "processing") {
+                setTimeout(checkProgress, 300);
+            }
+
+
+        };
+        checkProgress();
+    } catch (error) {
+        alert("حدث خطأ أثناء الاتصال");
+        button.classList.remove("downloading");
+    }
+});
+
+</script>
+<style>
+.platform-input-box > .process-progress{display:none !important}
+.platform-input-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(18px);z-index:200;align-items:center;justify-content:center}
+.platform-input-box{width:min(90%,430px);padding:30px;border:1px solid rgba(255,255,255,.12);border-radius:28px;background:linear-gradient(145deg,rgba(35,38,48,.96),rgba(15,17,23,.96));box-shadow:0 30px 90px rgba(0,0,0,.55);text-align:center}
+.platform-input-box h2{margin:8px 0;font-size:25px}
+.platform-input-box p{margin:8px 0 22px;color:#a9acb7}
+.platform-url-input{width:100%;box-sizing:border-box;padding:15px 16px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(255,255,255,.06);color:#fff;outline:none;font-size:15px}
+.platform-download-button{width:100%;margin-top:14px;padding:15px;border:0;border-radius:16px;background:#fff;color:#08090d;font-weight:700;font-size:16px;cursor:pointer;transition:background .35s ease,color .35s ease,filter .35s ease;backdrop-filter:blur(14px)}.download-progress-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:#fff;transition:width .3s ease;z-index:0}.download-progress-text{position:relative;z-index:10;display:flex;align-items:center;justify-content:center;width:100%;height:auto}.platform-download-button{position:relative;overflow:hidden}.platform-download-button.downloading .download-progress-text{color:#fff;mix-blend-mode:difference}.platform-download-button.downloading{background:#15161b;color:#fff;filter:brightness(.85);position:relative;overflow:hidden}.platform-download-button.downloading::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--download-progress,0%);background:#fff;opacity:.18;filter:blur(3px);transition:width .3s ease}
+</style>
+
+<script>document.querySelector(".platform-input-close").addEventListener("click",()=>{document.querySelector(".platform-input-modal").style.display="none"});</script>
+<script>
+document.querySelector(".platform-download-button").addEventListener("click", async () => {
+    const input = document.querySelector(".platform-url-input");
+    const url = input.value.trim();
+
+    if (!url) {
+        alert("ألصق رابط الفيديو أولاً");
+        return;
+    }
+
+    document.querySelector(".platform-download-button").classList.add("downloading");
+
+    const progress = document.querySelector(".platform-input-box .process-progress");
+    const progressBar = document.querySelector(".platform-progress-bar");
+    const progressText = document.querySelector(".platform-progress-text");
+
+    progress.style.display = "block";
+    progressBar.style.width = "0%";
+    progressText.textContent = "0%";
+
+    const formData = new FormData();
+    formData.append("url", url);
+
+    const response = await fetch("/download-url", {
+        method: "POST",
+        body: formData
+    });
+
+    if (!response.ok) {
+        alert("حدث خطأ أثناء بدء التنزيل");
+        return;
+    }
+
+    const data = await response.json();
+    const jobId = data.job_id;
+
+    const checkProgress = async () => {
+        const progressResponse = await fetch("/download-progress/" + jobId);
+        const data = await progressResponse.json();
+
+        progressBar.style.width = data.progress + "%";
+        document.querySelector(".download-progress-fill").style.width = data.progress + "%";
+        document.querySelector(".download-progress-text").textContent = data.progress + "%";
+        progressText.textContent = data.progress + "%";
+
+        if (data.status === "processing") {
+            setTimeout(checkProgress, 300);
+            return;
+        }
+
+        if (data.status === "error") {
+            alert("حدث خطأ أثناء تنزيل الفيديو");
+            return;
+        }
+
+        if (data.status === "done") {
+            const downloadResponse = await fetch("/download-url/" + jobId);
+            const blob = await downloadResponse.blob();
+
+            const downloadUrl = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = downloadUrl;
+            a.download = "VideoFix-TikTok.mp4";
+            a.click();
+            URL.revokeObjectURL(downloadUrl);
+            progressBar.style.width = "0%";
+            document.querySelector(".download-progress-fill").style.width = "0%";
+            document.querySelector(".download-progress-text").textContent = translations[document.documentElement.lang]?.download || "Download";
+            progressText.textContent = "0%";
+            document.querySelector(".platform-download-button").classList.remove("downloading");
+        }
+    };
+
+    checkProgress();
+});
+</script>
+<style id="videofix-neumorphic-theme">
+:root{
+  color-scheme:light;
+  --vf-base:#D1D9E6;
+  --vf-surface:#D1D9E6;
+  --vf-surface-soft:#E8E8E8;
+  --vf-white:#FFFFFF;
+  --vf-ink:#303135;
+  --vf-ink-soft:#3E3F46;
+  --vf-muted:#697383;
+  --vf-shadow-dark:#AAB5C5;
+  --vf-shadow-light:#F7FAFF;
+  --vf-radius-xl:30px;
+  --vf-radius-lg:24px;
+  --vf-radius-md:18px;
+  --vf-shadow-raised:9px 9px 20px var(--vf-shadow-dark),-9px -9px 20px var(--vf-shadow-light);
+  --vf-shadow-inset:inset 5px 5px 11px var(--vf-shadow-dark),inset -5px -5px 11px var(--vf-shadow-light);
+}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--vf-base);scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  margin:0;
+  color:var(--vf-ink);
+  background:
+    radial-gradient(ellipse at 8% 5%,rgba(255,255,255,.72),transparent 34%),
+    radial-gradient(ellipse at 95% 30%,rgba(255,255,255,.34),transparent 32%),
+    linear-gradient(145deg,#D1D9E6 0%,#D8DFE9 48%,#CBD4E1 100%);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Arabic","Segoe UI",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+.app{position:relative;isolation:isolate;max-width:760px;margin:0 auto;padding:30px 22px 48px}
+.app:before{
+  content:"";position:fixed;z-index:-1;top:18vh;left:50%;width:min(76vw,620px);height:min(76vw,620px);
+  transform:translateX(-50%);border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.27),rgba(255,255,255,0) 68%);
+}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:16px;min-height:64px}
+.brand{display:inline-flex;align-items:center;gap:12px;min-width:0;color:var(--vf-ink);text-decoration:none}
+.brand-mark{display:grid;place-items:center;width:56px;height:56px;padding:5px;border-radius:19px;background:var(--vf-base);box-shadow:6px 6px 13px var(--vf-shadow-dark),-6px -6px 13px var(--vf-shadow-light);overflow:hidden}
+.brand-mark img{display:block;width:100%;height:100%;object-fit:cover;border-radius:14px}
+.brand-wordmark{font-size:25px;font-weight:850;letter-spacing:-1.1px;color:var(--vf-ink);line-height:1}
+.language{border:0;border-radius:15px;padding:11px 15px;background:var(--vf-base);color:var(--vf-ink);font-size:13px;font-weight:750;box-shadow:5px 5px 11px var(--vf-shadow-dark),-5px -5px 11px var(--vf-shadow-light);cursor:pointer;transition:box-shadow .2s ease,transform .2s ease}
+.language:hover{transform:translateY(-1px)}
+.language:active{box-shadow:var(--vf-shadow-inset);transform:translateY(1px)}
+.language-menu{display:none;position:absolute;top:72px;left:22px;min-width:156px;max-height:60vh;overflow:auto;background:var(--vf-base);border:1px solid rgba(255,255,255,.55);border-radius:19px;padding:8px;z-index:30;box-shadow:12px 12px 26px rgba(116,130,151,.32),-8px -8px 20px rgba(255,255,255,.75)}
+.language-menu button{display:block!important;width:100%!important;border:0!important;background:transparent!important;color:var(--vf-ink)!important;padding:11px 13px!important;text-align:start!important;border-radius:12px!important;font:inherit;font-size:13px;cursor:pointer}
+.language-menu button:hover{background:rgba(255,255,255,.55)!important}
+.hero{position:relative;margin-top:48px;margin-bottom:30px;padding:10px 4px 4px;max-width:650px}
+.hero:before{content:"";position:absolute;z-index:-1;inset:-24px -12px -14px;border-radius:34px;background:linear-gradient(145deg,rgba(255,255,255,.28),rgba(255,255,255,0));pointer-events:none}
+.hero h1{margin:0 0 16px;color:var(--vf-ink);font-size:clamp(38px,7vw,58px);font-weight:850;line-height:1.13;letter-spacing:-1.8px}
+.hero p{max-width:570px;margin:0;color:#626D7D;font-size:16px;line-height:1.9;font-weight:500}
+.panel{position:relative;margin-top:30px;padding:26px;border:1px solid rgba(255,255,255,.42);border-radius:var(--vf-radius-xl);background:linear-gradient(145deg,rgba(221,228,238,.92),rgba(204,214,228,.92));box-shadow:var(--vf-shadow-raised)}
+.card-title{display:flex;align-items:center;gap:11px;color:var(--vf-ink);font-size:17px;font-weight:850;letter-spacing:-.2px}
+.card-title:before{content:"";width:5px;height:23px;border-radius:8px;background:var(--vf-ink-soft);box-shadow:2px 2px 4px rgba(48,49,53,.18)}
+.tools{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px}
+.tool{position:relative;display:block;width:100%;min-height:150px;padding:24px 22px;border:1px solid rgba(255,255,255,.55);border-radius:24px;background:linear-gradient(145deg,#D8E0EB,#CCD5E2);color:var(--vf-ink);text-align:start;cursor:pointer;box-shadow:7px 7px 15px #AAB5C5,-7px -7px 15px #F5F8FE;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.tool:after{content:"↗";position:absolute;top:22px;inset-inline-end:22px;display:grid;place-items:center;width:34px;height:34px;border-radius:12px;background:var(--vf-base);color:var(--vf-ink-soft);font-size:17px;font-weight:800;box-shadow:inset 2px 2px 5px rgba(147,160,180,.35),inset -2px -2px 5px rgba(255,255,255,.8)}
+.tool:hover{transform:translateY(-3px);box-shadow:10px 11px 19px #AAB5C5,-9px -9px 19px #F8FAFF;border-color:rgba(255,255,255,.85)}
+.tool:active{transform:translateY(1px) scale(.995);box-shadow:var(--vf-shadow-inset)}
+.tool-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:var(--vf-base);color:var(--vf-ink);font-size:29px;font-weight:800;box-shadow:inset 3px 3px 7px rgba(147,160,180,.34),inset -3px -3px 7px rgba(255,255,255,.82)}
+.tool b{display:block;margin-top:17px;color:var(--vf-ink);font-size:18px;font-weight:850}
+.tool span{display:block;max-width:88%;margin-top:7px;color:#667181;font-size:13px;line-height:1.7;font-weight:500}
+.footer{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:38px;color:#697383;text-align:center;font-size:12px;line-height:1.7}
+.footer-tagline{font-weight:600}
+.footer-credit{display:inline-flex;align-items:center;gap:7px;color:var(--vf-ink-soft);font-size:12px;font-weight:800;letter-spacing:.35px}
+.footer-credit:before,.footer-credit:after{content:"";width:18px;height:1px;background:linear-gradient(90deg,transparent,#8C98A9)}
+.download-links-modal,.platform-input-modal,.instagram-input-modal,.facebook-input-modal,.youtube-input-modal{background:rgba(54,62,75,.34)!important;backdrop-filter:blur(16px) saturate(115%)!important;-webkit-backdrop-filter:blur(16px) saturate(115%)!important;padding:18px}
+.download-links-box,.platform-input-box,.instagram-input-box,.facebook-input-box,.youtube-input-box{position:relative;width:min(100%,470px);padding:32px 28px;border:1px solid rgba(255,255,255,.68)!important;border-radius:28px!important;background:linear-gradient(145deg,#DCE3ED,#CDD6E3)!important;color:var(--vf-ink)!important;text-align:center;box-shadow:14px 14px 30px rgba(105,119,140,.36),-10px -10px 25px rgba(255,255,255,.82)!important}
+.download-links-box h2,.platform-input-box h2,.instagram-input-box h2,.facebook-input-box h2,.youtube-input-box h2{margin:7px 0 10px!important;color:var(--vf-ink)!important;font-size:24px!important;font-weight:850!important;letter-spacing:-.5px}
+.download-links-box p,.platform-input-box p,.instagram-input-box p,.facebook-input-box p,.youtube-input-box p{margin:8px 0 22px!important;color:#687383!important;font-size:14px!important;line-height:1.7}
+.download-links-close,.platform-input-close,.instagram-input-close,.facebook-input-close,.youtube-input-close{position:absolute!important;top:14px!important;inset-inline-end:14px!important;display:grid;place-items:center;width:36px!important;height:36px!important;margin:0!important;padding:0!important;border:0!important;border-radius:12px!important;background:var(--vf-base)!important;color:var(--vf-ink)!important;font-size:23px!important;line-height:1!important;box-shadow:4px 4px 8px #AAB5C5,-4px -4px 8px #F8FAFF!important;cursor:pointer}
+.platforms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:24px}
+.platform{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:126px;padding:18px 12px!important;border:1px solid rgba(255,255,255,.58)!important;border-radius:21px!important;background:linear-gradient(145deg,#DCE4EE,#CDD7E4)!important;color:var(--vf-ink)!important;font-size:14px;font-weight:800!important;box-shadow:6px 6px 12px #AAB5C5,-6px -6px 12px #F7FAFF!important;transition:transform .2s ease,box-shadow .2s ease!important;cursor:pointer}
+.platform:before{display:none!important}
+.platform:hover{transform:translateY(-3px);box-shadow:8px 9px 15px #AAB5C5,-8px -8px 15px #F7FAFF!important}
+.platform:active{transform:scale(.97);box-shadow:var(--vf-shadow-inset)!important}
+.platform-icon{display:grid!important;place-items:center;width:48px;height:48px;margin:0!important;border-radius:16px;background:var(--vf-base);color:var(--vf-ink);font-size:27px!important;line-height:1!important;filter:none!important;text-shadow:none!important;box-shadow:inset 3px 3px 6px rgba(147,160,180,.34),inset -3px -3px 6px rgba(255,255,255,.86)}
+.platform:nth-child(1) .platform-icon{color:#202127}
+.platform:nth-child(2) .platform-icon{color:#B43B76}
+.platform:nth-child(3) .platform-icon{color:#2866B8}
+.platform:nth-child(4) .platform-icon{color:#C63838}
+.platform-url-input,.instagram-url-input,.facebook-url-input,.youtube-url-input{width:100%;padding:16px 17px!important;border:1px solid rgba(255,255,255,.68)!important;border-radius:16px!important;background:#D1D9E6!important;color:var(--vf-ink)!important;font:inherit;font-size:14px!important;outline:none!important;box-shadow:var(--vf-shadow-inset)!important;transition:box-shadow .2s ease,border-color .2s ease}
+.platform-url-input::placeholder,.instagram-url-input::placeholder,.facebook-url-input::placeholder,.youtube-url-input::placeholder{color:#7B8593!important}
+.platform-url-input:focus,.instagram-url-input:focus,.facebook-url-input:focus,.youtube-url-input:focus{border-color:rgba(62,63,70,.45)!important;box-shadow:inset 3px 3px 7px #AAB5C5,inset -3px -3px 7px #F7FAFF,0 0 0 3px rgba(62,63,70,.08)!important}
+.platform-download-button,.instagram-download-button,.facebook-download-button,.youtube-download-button{position:relative;overflow:hidden;width:100%;margin-top:16px;padding:16px!important;border:1px solid rgba(255,255,255,.75)!important;border-radius:16px!important;background:linear-gradient(145deg,#3E3F46,#303135)!important;color:#fff!important;font-size:15px!important;font-weight:800!important;box-shadow:6px 6px 12px rgba(115,127,145,.38),-5px -5px 12px rgba(255,255,255,.78)!important;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,filter .18s ease!important}
+.platform-download-button:hover,.instagram-download-button:hover,.facebook-download-button:hover,.youtube-download-button:hover{filter:brightness(1.08)}
+.platform-download-button:active,.instagram-download-button:active,.facebook-download-button:active,.youtube-download-button:active{transform:translateY(1px);box-shadow:inset 4px 4px 8px rgba(0,0,0,.25),inset -3px -3px 7px rgba(255,255,255,.08)!important}
+.platform-download-button.downloading,.instagram-download-button.downloading,.facebook-download-button.downloading,.youtube-download-button.downloading{background:#303135!important;color:#fff!important}
+.download-progress-fill,.instagram-download-progress-fill,.facebook-download-progress-fill,.youtube-download-progress-fill{background:#D1D9E6!important;opacity:.22}
+.process-progress{margin-top:14px!important}
+.process-progress-bar{height:5px!important;border-radius:999px!important;background:var(--vf-ink-soft)!important}
+.process-progress-text{color:#687383!important}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(48,49,53,.34);outline-offset:3px}
+@media(min-width:700px){.app{padding-top:38px}.hero{margin-top:62px;margin-bottom:38px}.panel{padding:32px}.tool{min-height:164px;padding:28px}.download-links-box,.platform-input-box,.instagram-input-box,.facebook-input-box,.youtube-input-box{padding:36px 34px}}
+@media(max-width:520px){.app{padding:20px 17px 36px}.topbar{min-height:56px}.brand-mark{width:48px;height:48px;border-radius:16px}.brand-wordmark{font-size:22px}.language{padding:10px 12px}.hero{margin-top:38px;margin-bottom:25px}.hero h1{font-size:clamp(35px,10vw,44px);letter-spacing:-1.2px}.hero p{font-size:14px;line-height:1.85}.panel{padding:20px;border-radius:25px}.tool{min-height:145px;padding:20px;border-radius:21px}.tool:after{top:18px;inset-inline-end:18px}.download-links-box,.platform-input-box,.instagram-input-box,.facebook-input-box,.youtube-input-box{padding:30px 20px 22px;border-radius:24px!important}.platforms{gap:11px}.platform{min-height:116px;padding:15px 8px!important}.footer{margin-top:31px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Official website and social links — matched to the extracted soft Neumorphic system. */
+.connect-section{margin-top:34px}
+.official-site-card{position:relative;display:grid;grid-template-columns:76px minmax(0,1fr) auto;align-items:center;gap:18px;min-height:132px;padding:22px 24px;border:1px solid rgba(255,255,255,.68);border-radius:27px;background:linear-gradient(145deg,#DCE4EE,#CDD7E4);color:var(--vf-ink);text-decoration:none;box-shadow:9px 9px 18px #AAB5C5,-9px -9px 18px #F7FAFF;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.official-site-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.95);box-shadow:12px 13px 22px #AAB5C5,-11px -11px 22px #F9FBFF}
+.official-site-card:active{transform:translateY(1px);box-shadow:var(--vf-shadow-inset)}
+.official-site-mark{display:grid;place-items:center;width:76px;height:76px;padding:7px;border-radius:23px;background:var(--vf-base);box-shadow:inset 3px 3px 7px rgba(147,160,180,.3),inset -3px -3px 7px rgba(255,255,255,.88),5px 5px 10px rgba(147,160,180,.2)}
+.official-site-mark img{display:block;width:100%;height:100%;object-fit:contain;border-radius:17px}
+.official-site-copy{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:5px}
+.connect-eyebrow{color:#778394;font-size:10px;font-weight:850;letter-spacing:1.25px}
+.official-site-copy strong{color:var(--vf-ink);font-size:22px;font-weight:900;letter-spacing:-.45px}
+.official-site-copy>span:last-child{color:#687383;font-size:12px;line-height:1.65}
+.official-site-action{display:inline-flex;align-items:center;gap:9px;white-space:nowrap;padding:12px 15px;border:1px solid rgba(255,255,255,.22);border-radius:15px;background:linear-gradient(145deg,#3E3F46,#303135);color:#fff;font-size:12px;font-weight:800;box-shadow:5px 5px 10px rgba(115,127,145,.3),-4px -4px 10px rgba(255,255,255,.72)}
+.official-site-action span{font-size:16px;line-height:1}
+.social-heading{margin:27px 2px 14px;color:var(--vf-ink);font-size:15px;font-weight:850}
+.social-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.social-card{position:relative;display:flex;align-items:center;gap:13px;min-width:0;min-height:104px;padding:17px 16px;border:1px solid rgba(255,255,255,.62);border-radius:22px;background:linear-gradient(145deg,#DCE4EE,#CDD7E4);color:var(--vf-ink);text-decoration:none;box-shadow:7px 7px 14px #AAB5C5,-7px -7px 14px #F7FAFF;transition:transform .2s ease,box-shadow .2s ease}
+.social-card:hover{transform:translateY(-3px);box-shadow:10px 11px 18px #AAB5C5,-9px -9px 18px #F8FAFF}
+.social-card:active{transform:translateY(1px);box-shadow:var(--vf-shadow-inset)}
+.social-icon{display:grid;flex:0 0 46px;place-items:center;width:46px;height:46px;border-radius:15px;background:var(--vf-base);box-shadow:inset 3px 3px 6px rgba(147,160,180,.32),inset -3px -3px 6px rgba(255,255,255,.86)}
+.social-icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.instagram-card .social-icon{color:#A43F78}.tiktok-card .social-icon{color:#22252B}.tiktok-card .social-icon svg{fill:currentColor;stroke:none}
+.social-copy{display:flex;min-width:0;flex-direction:column;gap:3px}
+.social-copy strong{font-size:14px;font-weight:900}
+.social-copy>span{color:#687383;font-size:11px;font-weight:750}
+.social-copy small{color:#7A8492;font-size:10px;line-height:1.4}
+.social-arrow{margin-inline-start:auto;color:#778394;font-size:18px;font-weight:800}
+@media(max-width:600px){.connect-section{margin-top:28px}.official-site-card{grid-template-columns:58px minmax(0,1fr);gap:13px;padding:18px;border-radius:23px}.official-site-mark{width:58px;height:58px;padding:5px;border-radius:18px}.official-site-mark img{border-radius:13px}.official-site-copy strong{font-size:19px}.official-site-copy>span:last-child{font-size:11px}.official-site-action{grid-column:1/-1;justify-content:center;padding:11px 14px}.social-heading{margin-top:23px}.social-cards{gap:10px}.social-card{gap:9px;min-height:96px;padding:13px 10px;border-radius:18px}.social-icon{flex-basis:39px;width:39px;height:39px;border-radius:13px}.social-icon svg{width:21px;height:21px}.social-copy strong{font-size:12px}.social-copy>span{font-size:10px}.social-copy small{font-size:9px}.social-arrow{font-size:15px}}
+@media(max-width:360px){.social-cards{grid-template-columns:1fr}.social-card{min-height:82px;padding:13px 15px}.social-copy small{font-size:10px}}
+
+/* VYRO signature card — original mascot asset with restrained motion. */
+.vyro-signature-card{
+  position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(170px,.75fr);align-items:center;gap:16px;
+  min-height:238px;margin:30px 0 8px;padding:27px 30px;overflow:hidden;border:1px solid rgba(255,255,255,.78);border-radius:32px;
+  background:linear-gradient(145deg,#E3E9F1 0%,#D1D9E6 56%,#C9D3E1 100%);color:var(--vf-ink);text-decoration:none;
+  box-shadow:12px 12px 25px #AAB5C5,-12px -12px 25px #F8FBFF;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+}
+.vyro-signature-card:before{content:"";position:absolute;inset:1px;border-radius:30px;background:linear-gradient(125deg,rgba(255,255,255,.45),transparent 42%,rgba(255,255,255,.12));pointer-events:none;z-index:-1}
+.vyro-signature-card:hover{transform:translateY(-4px);border-color:#fff;box-shadow:16px 17px 30px #AAB5C5,-14px -14px 28px #FFFFFF}
+.vyro-signature-card:active{transform:translateY(1px);box-shadow:var(--vf-shadow-inset)}
+.vyro-signature-glow{position:absolute;z-index:-1;width:280px;height:280px;inset-inline-end:3%;top:50%;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.88),rgba(255,255,255,0) 70%);pointer-events:none}
+.vyro-signature-copy{position:relative;z-index:2;display:flex;min-width:0;flex-direction:column;align-items:flex-start}
+.vyro-signature-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid rgba(255,255,255,.8);border-radius:999px;background:rgba(255,255,255,.46);color:#697586;font-size:10px;font-weight:850;letter-spacing:.8px;box-shadow:inset 1px 1px 3px rgba(255,255,255,.9),3px 3px 7px rgba(144,157,176,.17)}
+.vyro-live-dot{width:7px;height:7px;border-radius:50%;background:#7F9B87;box-shadow:0 0 0 4px rgba(127,155,135,.13)}
+.vyro-signature-wordmark{display:flex;align-items:flex-start;gap:8px;margin:13px 0 0;color:#303135;font-size:clamp(32px,5vw,43px);font-weight:950;letter-spacing:-2px;line-height:1}
+.vyro-signature-sparkle{margin-top:0;color:#778394;font-size:15px;letter-spacing:0}
+.vyro-signature-tagline{margin-top:9px;color:#3E3F46;font-size:clamp(17px,2.8vw,22px);font-weight:850;letter-spacing:-.35px}
+.vyro-signature-preview{display:flex;align-items:center;gap:9px;width:min(100%,380px);margin-top:19px}
+.vyro-preview-link,.vyro-preview-video{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:8px 12px;border:1px solid rgba(255,255,255,.72);border-radius:13px;background:linear-gradient(145deg,#D7DFEA,#CED7E4);color:#697586;font-size:11px;font-weight:750;box-shadow:inset 3px 3px 6px rgba(160,173,192,.25),inset -3px -3px 6px rgba(255,255,255,.9),4px 4px 8px rgba(155,168,187,.18)}
+.vyro-preview-link{flex:1;min-width:0}.vyro-preview-link span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vyro-preview-link span:first-child{font-size:17px;color:#515B69}.vyro-preview-video{flex:0 0 auto;color:#303135}.vyro-preview-video span:first-child{font-size:12px}
+.vyro-signature-visit{display:inline-flex;align-items:center;gap:8px;margin-top:14px;color:#596575;font-size:11px;font-weight:850}.vyro-signature-visit span{font-size:16px;transition:transform .2s ease}.vyro-signature-card:hover .vyro-signature-visit span{transform:translate(2px,-2px)}
+.vyro-signature-mascot-wrap{position:relative;display:grid;place-items:center;justify-self:center;width:min(100%,220px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.68),rgba(255,255,255,.12) 65%,transparent 72%)}
+.vyro-mascot-orbit{position:absolute;inset:12%;border:1px solid rgba(255,255,255,.8);border-radius:50%;box-shadow:inset 2px 2px 6px rgba(255,255,255,.7),5px 5px 12px rgba(149,162,181,.15)}
+.vyro-signature-mascot{position:relative;z-index:1;display:block;width:88%;height:88%;object-fit:contain;border-radius:27%;filter:drop-shadow(0 13px 12px rgba(76,88,108,.19));animation:vyro-seal-float 4.2s ease-in-out infinite;transform-origin:50% 65%}
+.vyro-mascot-star{position:absolute;z-index:2;color:#778394;text-shadow:0 2px 7px rgba(255,255,255,.9);animation:vyro-star-twinkle 3.4s ease-in-out infinite}
+.vyro-mascot-star-one{top:15%;inset-inline-end:13%;font-size:20px}.vyro-mascot-star-two{bottom:20%;inset-inline-start:8%;font-size:16px;animation-delay:1.1s}
+.vyro-signature-arrow{position:absolute;top:20px;inset-inline-end:22px;display:grid;place-items:center;width:32px;height:32px;border-radius:11px;background:rgba(255,255,255,.48);color:#596575;font-size:17px;font-weight:800;box-shadow:inset 2px 2px 4px rgba(255,255,255,.8),3px 3px 7px rgba(143,156,175,.2)}
+@keyframes vyro-seal-float{0%,100%{transform:translate3d(0,0,0) rotate(-1.2deg)}50%{transform:translate3d(0,-9px,0) rotate(1.2deg)}}
+@keyframes vyro-star-twinkle{0%,100%{opacity:.48;transform:scale(.88) rotate(0)}50%{opacity:1;transform:scale(1.12) rotate(18deg)}}
+@media(max-width:600px){.vyro-signature-card{grid-template-columns:minmax(0,1fr) 112px;gap:5px;min-height:205px;margin-top:25px;padding:22px 19px;border-radius:26px}.vyro-signature-card:before{border-radius:24px}.vyro-signature-mascot-wrap{width:112px}.vyro-signature-wordmark{font-size:32px}.vyro-signature-tagline{font-size:16px}.vyro-signature-preview{gap:6px;margin-top:15px}.vyro-preview-link,.vyro-preview-video{min-height:36px;padding:7px 9px;font-size:10px}.vyro-signature-arrow{top:13px;inset-inline-end:13px;width:27px;height:27px}}
+@media(max-width:380px){.vyro-signature-card{grid-template-columns:minmax(0,1fr) 90px;padding:18px 14px}.vyro-signature-mascot-wrap{width:90px}.vyro-signature-wordmark{font-size:29px}.vyro-signature-tagline{font-size:14px}.vyro-signature-badge{font-size:9px}.vyro-preview-link,.vyro-preview-video{gap:5px;padding:6px 7px;font-size:9px}}
+@media(prefers-reduced-motion:reduce){.vyro-signature-mascot,.vyro-mascot-star{animation:none!important}}
+
+</style>
+</body>
+</html>

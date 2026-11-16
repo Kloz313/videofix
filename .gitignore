@@ -1,0 +1,16 @@
+__pycache__/
+outputs/
+uploads/
+*.mp4
+*.mp3
+*.m4a
+*.wav
+*.mov
+*.webm
+app.py.backup
+app.py.backup2
+
+templates/index.*
+!templates/index.html
+
+app.py.before-render
